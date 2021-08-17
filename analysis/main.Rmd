@@ -1,0 +1,47 @@
+---
+title: "portsmouth-darek-stemcells"
+output:
+  html_document:
+    toc: yes
+    df_print: paged
+
+date: "_Ostatnio sporządzony: `r format(Sys.time(), '%d %B, %Y %H:%M:%S')`_"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_file = paste0(
+        xfun::sans_ext(input), '-tmp.html'
+      ),
+      envir = globalenv()
+    )
+  })
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```
+
+```{bash download_r_package, eval=FALSE}
+# R-script: RNA-seq Analysis of HSC-MPPs
+# from https://doi.org/10.1016/j.stem.2014.07.005
+wget "https://www.cell.com/cms/10.1016/j.stem.2014.07.005/attachment/4b75e9f1-97f4-4d53-beba-7e4e023f5969/mmc8.zip" \
+    -P raw/
+unzip raw/mmc8.zip -d raw/
+tar -C raw/ -czf raw/mouse.RNAseq.HSC.MPP.tar.gz mouse.RNAseq.HSC.MPP/ 
+```
+
+
+```{r install_packages, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("DEXSeq")
+
+install.packages(
+  "raw/mouse.RNAseq.HSC.MPP.tar.gz",
+  repos = NULL,
+  type = "source"
+)
+```
