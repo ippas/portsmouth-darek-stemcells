@@ -18,6 +18,12 @@ knit: (function(input, ...) {
   })
 ---
 
+<STYLE TYPE="text/css">
+  table {
+    font-size: 12px;
+  }
+</STYLE>
+
 ```{r setup, include=FALSE}
 library(knitr)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
@@ -44,4 +50,81 @@ install.packages(
   repos = NULL,
   type = "source"
 )
+```
+
+```{r load_libraries, message=FALSE}
+library(tidyverse)
+library(kableExtra)
+library(mouse.RNAseq.HSC.MPP)
+```
+
+```{r}
+data("dseHSCMPP")
+data("ecsHSCMPP")
+data("ecsHSCMPP1")
+
+DMD = "ENSMUSG00000045103"
+```
+
+
+# dseHSCMPP
+
+```{r eval=FALSE}
+setClass("DataFrame", representation(nrows = "numeric", age = "numeric"))
+dummy_slot <- new("DataFrame", nrows = 0, age = 31)
+dseHSCMPP@elementMetadata <- dummy_slot
+str(dseHSCMPP)
+```
+
+```{r}
+slotNames(dseHSCMPP)
+str(dseHSCMPP@assays$data$counts)
+dseHSCMPP@assays$data$counts %>%
+  as_tibble(rownames = 'gene') %>%
+  filter(gene == DMD)
+```
+
+
+# ecsHSCMPP
+
+```{r}
+str(ecsHSCMPP)
+```
+
+```{r}
+str(ecsHSCMPP@assayData)
+ecsHSCMPP@assayData$counts %>%
+  as.tibble(rownames = 'gene:exon') %>%
+  filter(substr(`gene:exon`, start = 1, stop = 18) == DMD)
+```
+
+```{r}
+str(ecsHSCMPP@featureData)
+ecsHSCMPP@featureData@varMetadata
+ecsHSCMPP@featureData@data %>%
+  as_tibble(rownames = 'gene:exon') %>%
+  filter(geneID == DMD)
+```
+
+
+# ecsHSCMPP1
+
+```{r}
+str(ecsHSCMPP1)
+```
+
+```{r}
+str(ecsHSCMPP1@assayData)
+ls(ecsHSCMPP1@assayData)
+ecsHSCMPP1@assayData$counts %>%
+  as.tibble(rownames = 'gene:exon') %>%
+  filter(substr(`gene:exon`, start = 1, stop = 18) == DMD)
+```
+
+```{r}
+str(ecsHSCMPP1@featureData)
+ecsHSCMPP1@featureData@varMetadata
+ecsHSCMPP1@featureData@data %>%
+  as_tibble(rownames = 'gene:exon') %>%
+  filter(geneID == DMD)
 ```
