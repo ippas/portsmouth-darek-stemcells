@@ -109,6 +109,22 @@ ecsHSCMPP@featureData@data %>%
 
 # ecsHSCMPP1
 
+Table poniżej są tymi samymi co z _ecsHSCMPP_, ale tylko dla komórek HSC i MPP1.
+
+```{r}
+x <- ecsHSCMPP@assayData$counts %>%
+  as.tibble(rownames = 'gene:exon') %>%
+  filter(substr(`gene:exon`, start = 1, stop = 18) == DMD) %>%
+  select(`gene:exon`, contains('HSC'), contains('MPP1'))
+
+y <- ecsHSCMPP1@assayData$counts %>%
+  as.tibble(rownames = 'gene:exon') %>%
+  filter(substr(`gene:exon`, start = 1, stop = 18) == DMD) %>%
+  select(`gene:exon`, contains('HSC'), contains('MPP1'))
+
+stopifnot(identical(x, y))
+```
+
 ```{r}
 str(ecsHSCMPP1)
 ```
