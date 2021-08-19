@@ -33,9 +33,9 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 # R-script: RNA-seq Analysis of HSC-MPPs
 # from https://doi.org/10.1016/j.stem.2014.07.005
 wget "https://www.cell.com/cms/10.1016/j.stem.2014.07.005/attachment/4b75e9f1-97f4-4d53-beba-7e4e023f5969/mmc8.zip" \
-    -P raw/
-unzip raw/mmc8.zip -d raw/
-tar -C raw/ -czf raw/mouse.RNAseq.HSC.MPP.tar.gz mouse.RNAseq.HSC.MPP/ 
+    -P raw/package/
+unzip raw/package/mmc8.zip -d raw/package/
+tar -C raw/package/ -czf raw/package/mouse.RNAseq.HSC.MPP.tar.gz mouse.RNAseq.HSC.MPP/
 ```
 
 
@@ -46,7 +46,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("DEXSeq")
 
 install.packages(
-  "raw/mouse.RNAseq.HSC.MPP.tar.gz",
+  "raw/package/mouse.RNAseq.HSC.MPP.tar.gz",
   repos = NULL,
   type = "source"
 )
