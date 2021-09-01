@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+
+GTF_FILE=$(
+	find cromwell-executions/ -name "Mus_musculus_gtf.gtf" 2> /dev/null | \
+	grep ensembl | \
+	head -n 1
+)
+OTHER="\
+ENSMUST00000113991|\
+ENSMUST00000113992|\
+ENSMUST00000123308|\
+ENSMUST00000127295|\
+ENSMUST00000128983|\
+ENSMUST00000132333|\
+ENSMUST00000139998|\
+ENSMUST00000141261|\
+ENSMUST00000146331|\
+ENSMUST00000147740|\
+ENSMUST00000149433|\
+ENSMUST00000156107|\
+ENSMUST00000239269\
+"
+
+cat $GTF_FILE | grep -Pv "$OTHER" > data/Mus_musculus_dmd_2transcripts.gtf
