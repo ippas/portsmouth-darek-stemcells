@@ -53,9 +53,9 @@ install.packages(
 ```
 
 ```{r load_libraries, message=FALSE}
-library(tidyverse)
 library(kableExtra)
 library(mouse.RNAseq.HSC.MPP)
+library(tidyverse)
 ```
 
 ```{r}
