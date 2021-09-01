@@ -1,0 +1,4 @@
+{
+        "final_workflow_outputs_dir": "/home/ifpan/projects/portsmouth-darek-stemcells/data/rna-seq-paired-end-output/",
+	"use_relative_output_paths": true
+}
