@@ -50,10 +50,15 @@ install.packages(
   repos = NULL,
   type = "source"
 )
+
+
+install.packages("ggpubr")
 ```
 
 ```{r load_libraries, message=FALSE}
 library(kableExtra)
+library(ggplot2)
+library(ggpubr)
 library(mouse.RNAseq.HSC.MPP)
 library(tidyverse)
 ```
