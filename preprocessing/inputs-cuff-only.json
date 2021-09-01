@@ -1,0 +1,42 @@
+{
+    "rna_seq_paired_end.analysis_id": "E-MTAB-2262",
+    "rna_seq_paired_end.organism_name": "Mus musculus",
+    "rna_seq_paired_end.gtf": "/home/ifpan/projects/portsmouth-darek-stemcells/data/Mus_musculus_dmd_2transcripts.gtf",
+    "rna_seq_paired_end.release_version": "100",
+    "rna_seq_paired_end.bam_file": [
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/HSC_1.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/HSC_2.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/HSC_3.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/HSC_4.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP1_1.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP1_3.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP1_4.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP2_1.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP2_2.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP2_3.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP3_1.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP3_2.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP3_3.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP4_1.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP4_2.bam",
+	"/home/ifpan/projects/portsmouth-darek-stemcells/data/bams/MPP4_3.bam"
+    ],
+    "rna_seq_paired_end.samples_names": [
+	"HSC_1",
+	"HSC_2",
+	"HSC_3",
+	"HSC_4",
+	"MPP1_1",
+	"MPP1_3",
+	"MPP1_4",
+	"MPP2_1",
+	"MPP2_2",
+	"MPP2_3",
+	"MPP3_1",
+	"MPP3_2",
+	"MPP3_3",
+	"MPP4_1",
+	"MPP4_2",
+	"MPP4_3"
+    ]
+}
