@@ -230,3 +230,56 @@ hk_isoforms_data <-
     isoforms_data %>%
     filter(gene_short_name %in% c("Dmd", "Gapdh", "Hprt"))
 ```
+
+```{r expression_level}
+dp427_ens <- 'ENSMUST00000114000'
+dp71_ens <- 'ENSMUST00000239019'
+
+.names_map_df <- as_tibble(
+  list(
+    tracking_id = c(dp71_ens, dp427_ens),
+    Name = c(paste(dp71_ens, "(dp71) rank"), paste(dp427_ens, "(dp427) rank"))
+  )
+)
+dmd_ranks <-
+  isoforms_data %>%
+  mutate(across(c(starts_with("HSC"), starts_with("MPP")), ~ min_rank(desc(.x)))) %>%
+  filter(tracking_id %in% c(dp71_ens, dp427_ens)) %>%
+  left_join(.names_map_df, by = 'tracking_id')
+
+hprt <-
+  genes_data %>%
+  filter(gene_short_name == "Hprt") %>%
+  select(starts_with("HSC"), starts_with("MPP")) %>%
+  as_vector()
+gapdh <-
+  genes_data %>%
+  filter(gene_short_name == "Gapdh") %>%
+  select(starts_with("HSC"), starts_with("MPP")) %>%
+  as_vector()
+dmd <-
+  genes_data %>%
+  filter(gene_short_name == "Dmd") %>%
+  select(starts_with("HSC"), starts_with("MPP")) %>%
+  as_vector()
+
+.n_isoforms <- as.list(rep(dim(isoforms_data)[1], 16))
+names(.n_isoforms) <- names(dmd)
+
+dmd_ranks %>%
+  bind_rows(c(.n_isoforms, Name = "n")) %>%
+  bind_rows(c(as.list(dmd / hprt * 100), Name = "Dmd / Hprt [%]")) %>%
+  bind_rows(c(as.list(dmd / gapdh * 100), Name = "Dmd / Gapdh [%]")) %>%
+  select(-tracking_id, -gene_id, -gene_short_name) %>%
+  relocate(Name) %>%
+
+  mutate(HSC = round(rowMeans(select(., starts_with("HSC"))), 2)) %>%
+  mutate(MPP1 = round(rowMeans(select(., starts_with("MPP1"))), 2)) %>%
+  mutate(MPP2 = round(rowMeans(select(., starts_with("MPP2"))), 2)) %>%
+  mutate(MPP3 = round(rowMeans(select(., starts_with("MPP3"))), 2)) %>%
+  mutate(MPP4 = round(rowMeans(select(., starts_with("MPP4"))), 2)) %>%
+
+  mutate(ALL = round(rowMeans(select(., contains("_"))), 3)) %>%
+  select(-contains("_")) %>%
+  write_csv('analysis/poziom-ekspresji-dmd.csv')
+```
