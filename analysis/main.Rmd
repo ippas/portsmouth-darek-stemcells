@@ -200,3 +200,33 @@ ggplot(ggdata, aes(x = `cell type`, y = `mean FPKM`, fill = `tracking id`)) +
   theme(legend.position = "right")
 ggsave('analysis/FPKM_dmd.png', width = 8, height = 4, dpi = 150)
 ```
+
+# Dp72 and Dp427 expression in comparison to the rest of transcripts
+
+```{r load_fpkm2}
+cuff_path <- file.path(
+  'data',
+  'rna-seq-paired-end-output',
+  'glob-c589286a63ff6674632a91417e56ef8a'
+)
+
+isoforms_fpkm <- read_tsv(file.path(cuff_path, 'isoforms.fpkm_table.tsv'))
+isoforms_attr <-
+  read_tsv(file.path(cuff_path, 'isoforms.attr_table.tsv')) %>%
+  select(tracking_id, gene_id, gene_short_name)
+isoforms_data <- left_join(isoforms_fpkm, isoforms_attr, by = 'tracking_id')
+
+genes_fpkm <- read_tsv(file.path(cuff_path, 'genes.fpkm_table.tsv'))
+genes_attr <-
+  read_tsv(file.path(cuff_path, 'genes.attr_table.tsv')) %>%
+  select(tracking_id, gene_id, gene_short_name)
+genes_data <- left_join(genes_fpkm, genes_attr, by = 'tracking_id')
+
+hk_genes_data <-
+    genes_data %>%
+    filter(gene_short_name %in% c("Dmd", "Gapdh", "Hprt", "Actb"))
+
+hk_isoforms_data <-
+    isoforms_data %>%
+    filter(gene_short_name %in% c("Dmd", "Gapdh", "Hprt", "Actb"))
+```
