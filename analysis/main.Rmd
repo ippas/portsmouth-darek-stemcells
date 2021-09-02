@@ -224,9 +224,9 @@ genes_data <- left_join(genes_fpkm, genes_attr, by = 'tracking_id')
 
 hk_genes_data <-
     genes_data %>%
-    filter(gene_short_name %in% c("Dmd", "Gapdh", "Hprt", "Actb"))
+    filter(gene_short_name %in% c("Dmd", "Gapdh", "Hprt"))
 
 hk_isoforms_data <-
     isoforms_data %>%
-    filter(gene_short_name %in% c("Dmd", "Gapdh", "Hprt", "Actb"))
+    filter(gene_short_name %in% c("Dmd", "Gapdh", "Hprt"))
 ```
