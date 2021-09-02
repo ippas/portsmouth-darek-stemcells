@@ -149,3 +149,54 @@ ecsHSCMPP1@featureData@data %>%
   as_tibble(rownames = 'gene:exon') %>%
   filter(geneID == DMD)
 ```
+
+# Expression of Dp72 and Dp427
+
+```{r load_fpkm}
+cuff_path <- file.path(
+  'data',
+  'rna-seq-paired-end-output',
+  'glob-c589286a63ff6674632a91417e56ef8a'
+)
+
+isoforms_fpkm <- read_tsv(file.path(cuff_path, 'isoforms.fpkm_table.tsv'))
+isoforms_attr <-
+  read_tsv(file.path(cuff_path, 'isoforms.attr_table.tsv')) %>%
+  select(tracking_id, gene_id, gene_short_name)
+
+dmd_fpkm <-
+    left_join(isoforms_fpkm, isoforms_attr, by = 'tracking_id') %>%
+    filter(gene_short_name == 'Dmd')
+```
+
+```{r plot_figure}
+ggdata <-
+    dmd_fpkm %>%
+    pivot_longer(
+      c(starts_with('HSC'), starts_with('MPP')),
+      names_to = 'cell_name',
+      values_to = 'FPKM'
+    ) %>%
+    mutate(`cell type` = substr(cell_name, 1, nchar(cell_name) - 2)) %>%
+    group_by(tracking_id, `cell type`) %>%
+    summarise(`mean FPKM` = mean(FPKM), sem = sd(FPKM) / sqrt(n())) %>%
+    mutate(
+      `tracking id` = paste(
+        tracking_id,
+        if_else(tracking_id == 'ENSMUST00000114000', '(Dp427)', '(Dp71)')
+      )
+    )
+
+ggplot(ggdata, aes(x = `cell type`, y = `mean FPKM`, fill = `tracking id`)) +
+  geom_bar(stat = 'identity', position = 'dodge', show.legend = TRUE) +
+  geom_errorbar(
+    aes(ymin = `mean FPKM` - sem, ymax = `mean FPKM` + sem),
+    position = position_dodge(width = .9),
+    width = .3,
+    size = 0.3
+  ) +
+  scale_fill_brewer(palette = 'Set1') +
+  theme_pubr() +
+  theme(legend.position = "right")
+ggsave('analysis/FPKM_dmd.png', width = 8, height = 4, dpi = 150)
+```
