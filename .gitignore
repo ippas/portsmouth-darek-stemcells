@@ -4,6 +4,10 @@
 
 *.RDS
 *.html
+*.png
+
+/cromwell-executions/
+/cromwell-workflow-logs/
 
 
 ########## R.gitignore ##########
