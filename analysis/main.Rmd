@@ -300,3 +300,29 @@ dmd_ranks %>%
   relocate(Name) %>%
   write_csv('analysis/poziom-ekspresji-dmd.csv')
 ```
+
+# Expression comparison between MPP1 and MPP3 / MPP4
+
+```{r siginficant_MPP1_vs_MPP34}
+library(rstatix)
+
+dmd_fpkm_long <-
+  dmd_fpkm %>%
+  pivot_longer(c(contains("HSC"), contains("MPP")), names_to = "cell", values_to = "fpkm") %>%
+  separate(cell, into = c("cell", "sample_nr")) %>%
+  select(-gene_id, -gene_short_name)
+
+dmd_fpkm_long %>%
+  anova_test(
+    dv = fpkm,
+    between = c(cell, tracking_id)
+  )
+
+dmd_fpkm_long %>%
+  filter(tracking_id == "ENSMUST00000239019") %>%
+  pairwise_t_test(
+    formula = fpkm ~ cell,
+    p.adjust.method = "bonf"
+  ) %>%
+  arrange(group1)
+```
