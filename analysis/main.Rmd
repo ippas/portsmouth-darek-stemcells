@@ -186,7 +186,7 @@ ggdata <-
       label = if_else(
           `Tracking id` == 'ENSMUST00000239019 (Dp71)' & `Cell type` %in% c('MPP3', 'MPP4'), '*', ''
       ),
-      y_txt = NA
+      y_txt = as.double(NA)
     ) %>%
   mutate(
     y_txt = if_else(
@@ -199,21 +199,15 @@ ggdata <-
 
 ggplot(
   ggdata,
-  aes(x = `Cell type`, y = FPKM, fill = `Tracking id`, colour = `tracking id`)
+  aes(x = `Cell type`, y = FPKM, fill = `Tracking id`, colour = `Tracking id`)
 ) +
   stat_summary(
-      fun = "mean",
-      geom = "bar",
-      position = position_dodge(),
-      alpha = 0.6,
-      colour = 'black'
-  ) +
-  stat_summary(
-      fun.data = "mean_se",
-      geom = "errorbar",
-      colour = 'black',
-      position = position_dodge(width = .9),
-      width = 0.3
+      fun.data = 'mean_se',
+      geom = 'crossbar',
+      position = position_dodge(width = 0.9),
+      fill = 'white',
+      width = 0.4,
+      linewidth = 0.4,
   ) +
   geom_point(
       position = position_jitterdodge(
